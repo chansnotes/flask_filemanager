@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    {{ fontawesome_html() }}
+    <title>Fermentor File Manager</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand hvr-shadow" href="/">File Manager</a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </nav>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12 lead mt-4" style="text-align: left; margin-bottom:-10px;">
+                {% autoescape false %}
+                {{curr_dir}}
+                {% endautoescape %}
+                <hr>
+
+                <div id="view1_container" class="container" {{ default_view_css_2 }}>
+                    <div class="row mt-4">
+                        <div class="col-3 mb-2" style=" text-align:center;"><b>Name</b>
+                            <hr>
+                        </div>
+                        <div class="col-3" style=" text-align:center;"><b>Created Time</b>
+                            <hr>
+                        </div>
+                        <div class="col-3" style=" text-align:center;"><b>Modified Time</b>
+                            <hr>
+                        </div>
+                        <div class="col-3" style=" text-align:center;"><b>Size</b>
+                            <hr>
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-3" style="margin-bottom:-10px">
+                            <a href="/cd?path=.."><img src='/static/root.png'
+                                    style="position:absolute; height:25px; width:25px; border:0px;" />
+
+                                <p style="margin-left:35px; color:black; text-align:left; text-decoration:none;">
+                                    ...</p>
+                            </a>
+                        </div>
+                        <div class="col-3" style="margin-bottom:-10px">
+                            <p style="margin-left:45px;">---</p>
+                        </div>
+                        <div class="col-3" style="margin-bottom:-10px">
+                            <p style="margin-left:45px;">---</p>
+                        </div>
+                        <div class="col-3" style="margin-bottom:-10px; ">
+                            <p style="margin-left:110px;">---</p>
+                        </div>
+
+                        {% for k, item in dir_list_dict.items() %}
+                        <div class="col-3" style="margin-bottom:-10px">
+
+                            <a href="/cd?path={{ item.currentDir + '/' + item.f_url }}">
+
+                                <img src='/static/{{item.image}}'
+                                    style="position:absolute; height:25px; width:25px; border:0px;" />
+
+                                <p style="margin-left:35px; color:black; text-align:left; text-decoration:none;">
+                                    {{item.f}}</p>
+                            </a>
+
+                        </div>
+                        <div class="col-3" style="margin-bottom:-10px">
+                            <p style="margin-left:45px;">{{item.dtc}}</p>
+                        </div>
+                        <div class="col-3" style="margin-bottom:-10px">
+                            <p style="margin-left:45px;">{{item.dtm}}</p>
+                        </div>
+                        <div class="col-3" style="margin-bottom:-10px; ">
+                            <p style="margin-left:110px;">{{item.size}}</p>
+                        </div>
+
+                        {% endfor%}
+
+                        <div class="row mt-4">
+                            <h5></h5>
+                        </div>
+                        <hr>
+                        <div class="row mt-4"></div>
+
+                        <div class="row">
+
+
+                            {% for k,item in file_list_dict.items() %}
+                            {% if '.JPG' in item.f_url or '.jpg' in item.f_url or '.png' in item.f_url %}
+
+                            <div class="col-3" style="margin-bottom:-10px">
+                                <a href="/image?path={{ item.currentDir }}&filename={{item.f_url }}">
+                                    <img src='/static/{{item.image}}'
+                                        style="position:absolute; height:25px; width:25px; border:0px;" />
+
+                                    <p style="margin-left:35px; color:black; text-align:left; text-decoration:none;">
+                                        {{item.f}}</p>
+                                </a>
+                            </div>
+                            <div class="col-3" style="margin-bottom:-10px">
+                                <p style="margin-left:45px;">{{item.dtc}}</p>
+                            </div>
+                            <div class="col-3" style="margin-bottom:-10px">
+                                <p style="margin-left:45px;">{{item.dtm}}</p>
+                            </div>
+                            <div class="col-3" style="margin-bottom:-10px; ">
+                                <p style="margin-left:110px;">{{item.size}}</p>
+                            </div>
+                            {% elif '.py' in item.f_url %}
+                            <div class="col-3" style="margin-bottom:-10px">
+                                <a href="/view?file={{ item.currentDir + '/' + item.f_url }}">
+                                    <img src='/static/python.png'
+                                        style="position:absolute; height:25px; width:25px; border:0px;" />
+                                    <p style="margin-left:35px; color:black; text-align:left; text-decoration:none;">
+                                        {{item.f}}</p>
+                                </a>
+                            </div>
+                            <div class="col-3" style="margin-bottom:-10px">
+                                <p style="margin-left:45px;">{{item.dtc}}</p>
+                            </div>
+                            <div class="col-3" style="margin-bottom:-10px">
+                                <p style="margin-left:45px;">{{item.dtm}}</p>
+                            </div>
+                            <div class="col-3" style="margin-bottom:-10px; ">
+                                <p style="margin-left:110px;">{{item.size}}</p>
+                            </div>
+                            {% elif '.txt' in item.f_url %}
+                            <div class="col-3" style="margin-bottom:-10px">
+                                <a href="/view?file={{ item.currentDir + '/' + item.f_url }}">
+                                    <img src='/static/txt.png'
+                                        style="position:absolute; height:25px; width:25px; border:0px;" />
+                                    <p style="margin-left:35px; color:black; text-align:left; text-decoration:none;">
+                                        {{item.f}}</p>
+                                </a>
+                            </div>
+                            <div class="col-3" style="margin-bottom:-10px">
+                                <p style="margin-left:45px;">{{item.dtc}}</p>
+                            </div>
+                            <div class="col-3" style="margin-bottom:-10px">
+                                <p style="margin-left:45px;">{{item.dtm}}</p>
+                            </div>
+                            <div class="col-3" style="margin-bottom:-10px; ">
+                                <p style="margin-left:110px;">{{item.size}}</p>
+                            </div>
+                            {% elif '.sh' in item.f_url %}
+                            <div class="col-3" style="margin-bottom:-10px">
+                                <a href="/view?file={{ item.currentDir + '/' + item.f_url }}">
+                                    <img src='/static/bash.png'
+                                        style="position:absolute; height:25px; width:25px; border:0px;" />
+                                    <p style="margin-left:35px; color:black; text-align:left; text-decoration:none;">
+                                        {{item.f}}</p>
+                                </a>
+                            </div>
+                            <div class="col-3" style="margin-bottom:-10px">
+                                <p style="margin-left:45px;">{{item.dtc}}</p>
+                            </div>
+                            <div class="col-3" style="margin-bottom:-10px">
+                                <p style="margin-left:45px;">{{item.dtm}}</p>
+                            </div>
+                            <div class="col-3" style="margin-bottom:-10px; ">
+                                <p style="margin-left:110px;">{{item.size}}</p>
+                            </div>
+                            {% else %}
+                            <div class="col-3" style="margin-bottom:-10px">
+                                <img src='/static/file_icon.png'
+                                    style="position:absolute; height:25px; width:25px; border:0px;" />
+                                <p style="margin-left:35px; color:black; text-align:left; text-decoration:none;">
+                                    {{item.f}}</p>
+                                </a>
+                            </div>
+                            <div class="col-3" style="margin-bottom:-10px">
+                                <p style="margin-left:45px;">{{item.dtc}}</p>
+                            </div>
+                            <div class="col-3" style="margin-bottom:-10px">
+                                <p style="margin-left:45px;">{{item.dtm}}</p>
+                            </div>
+                            <div class="col-3" style="margin-bottom:-10px; ">
+                                <p style="margin-left:110px;">{{item.size}}</p>
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <h5></h5>
+                </div>
+                <hr>
+                <div class="row mt-4"></div>
+
+
+            </div>
+
+            <!-- <ul>
+                    <li><a href="/cd?path=..">...</a></li>
+                    {% for item in file_list[0:-1] %}
+                    {% if '.' not in item %}
+                    <div class="col-md-2 col-sm-4 col-6 mt-2">
+                        <div class="thumbnail hvr-shadow">
+                            <li> <a href="/cd?path={{ curr_dir + '/' + item }}">
+                                    <img src='/static/folder.png' class='img-thumbnail' style="border:0px;" />
+                                    <p style="color:black; text-align:center; text-decoration:none;">
+                                        {{ item }}
+                                    </p>
+                                </a>
+                            </li>
+                        </div>
+                    </div>
+                    {% elif '.py' in item %}
+                    <li> <a href="/view?file={{ curr_dir + '/' + item }}">{{ item }} </a></li>
+                    {% elif '.JPG' in item or '.jpg' in item or '.png' in item %}
+                    <li> <a href="/image?path={{ curr_dir }}&filename={{item }}">{{ item }} </a></li>
+                    {% else %}
+                    <li>{{item}}</li>
+                    {% endif %}
+                    {% endfor %}
+                </ul> -->
+
+        </div>
+    </div>
+    </div>
+    <script href="{{ url_for('static', filename='js/jquery-3.3.1.slim.min.js') }}"></script>
+    <script href="{{ url_for('static', filename='js/popper.min.js') }}"></script>
+    <script href="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+</body>
+
+</html>

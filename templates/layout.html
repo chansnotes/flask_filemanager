@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    {{ fontawesome_html() }}
+    <title>Fermentor File Manager</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-info">
+        <a class="navbar-brand hvr-shadow" href="/"><img src="/static/wifile_2.png"
+                style="width:100px; margin-top:-10px;margin-bottom:-20px;"></a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </nav>
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12 lead mt-4" style="text-align: left; margin-bottom:-10px;">
+                {% autoescape false %}
+
+                {{currentDir_path}}
+
+                {% endautoescape %}
+                <hr>
+            </div>
+        </div>
+    </div>
+
+    {% block content %} {% endblock %}
+
+
+    <script href="{{ url_for('static', filename='js/jquery-3.3.1.slim.min.js') }}"></script>
+    <script href="{{ url_for('static', filename='js/popper.min.js') }}"></script>
+    <script href="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+
+
+
+</body>
+
+</html>
