@@ -129,7 +129,7 @@ def image():
 
     # send_from_directory = Check whether reqeusted file is really from specified directory.
     try:
-        return send_from_directory(directory=request.args.get('path'), path=request.args.get('filename'), mimetype='image/jpg')
+        return send_from_directory(directory=request.args.get('path'), filename=request.args.get('filename'), mimetype='image/jpg')
     except FileNotFoundError:
         abort(404)
 
